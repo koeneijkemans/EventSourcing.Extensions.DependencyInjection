@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Koen Eijkemans</Authors>
+    <Version>0.0.1</Version>
+    <Description>Extension methods for using the Event Sourcing framework with the Microsoft ServiceCollection as Dependency Injection.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Kei.EventSourcing" Version="0.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+  </ItemGroup>
+
+</Project>
