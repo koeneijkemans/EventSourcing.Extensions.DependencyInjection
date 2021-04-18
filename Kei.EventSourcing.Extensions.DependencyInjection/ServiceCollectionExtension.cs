@@ -12,16 +12,32 @@ namespace Kei.EventSourcing.ServiceCollectionExtension
         /// Adds the default setup for event sourcing to the service collection.
         /// </summary>
         /// <param name="services">The service collection</param>
+        /// <param name="scanForHandlers">Boolean value indicating to scan the current application domain for command handler instances.</param>
         /// <returns>The extended <see cref="IServiceCollection" /></returns>
-        public static IServiceCollection AddEventSourcing(this IServiceCollection services)
+        public static IServiceCollection AddEventSourcing(this IServiceCollection services, bool scanForHandlers = false)
         {
             services.AddTransient<StateConnector>();
             services.AddTransient<CommandHandler>();
-            services.AddTransient<EventPublisher, EventPublisher>();
+            services.AddSingleton<EventPublisher, EventPublisher>();
 
-            // Scan assemblies for classes that implement ICommandHandler
-            Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            if (scanForHandlers)
+            {
+                var assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
+                ScanForCommandHandlers(services, assemblies);
+            }
+
+            return services;
+        }
+
+        /// <summary>
+        /// Scans the given assemblies for implementations of <see cref="ICommandHandler{T}" /> and registers them as a transient type.
+        /// </summary>
+        /// <param name="services">The service collection to extend</param>
+        /// <param name="assemblies">The assemblies to scan</param>
+        /// <returns>The extended <see cref="IServiceCollection"/></returns>
+        public static IServiceCollection ScanForCommandHandlers(this IServiceCollection services, params Assembly[] assemblies)
+        {
             foreach (Assembly assembly in assemblies)
             {
                 var commandHandlerTypes = assembly

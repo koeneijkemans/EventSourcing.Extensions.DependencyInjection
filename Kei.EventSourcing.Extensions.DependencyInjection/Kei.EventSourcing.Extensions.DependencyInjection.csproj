@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <Authors>Koen Eijkemans</Authors>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <Description>Extension methods for using the Event Sourcing framework with the Microsoft ServiceCollection as Dependency Injection.</Description>
   </PropertyGroup>
 
